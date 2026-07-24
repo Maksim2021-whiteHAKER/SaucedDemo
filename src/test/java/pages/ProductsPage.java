@@ -17,5 +17,4 @@ public class ProductsPage extends BasePage  {
     public String getNamePage() {
         return driver.findElement(pageName).getText();
     }
-
 }
