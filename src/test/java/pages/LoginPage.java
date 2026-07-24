@@ -3,28 +3,31 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-public class LoginPage {
+public class LoginPage extends BasePage{
     private final By loginInput = By.cssSelector("#user-name");
     private final By passwordInput = By.cssSelector("#password");
     private final By loginButton = By.cssSelector("#login-button");
-    WebDriver driver;
+    private final By error = By.xpath("//h3");
 
     public LoginPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
-    public void openSaucedDemo() {
-        driver.get("https://saucedemo.com/");
-    }
-
-    // будет не тут но пока тут
-    public void openShareLine() {
-        driver.get("https://sharelane.com/cgi-bin/register.py");
+    public void open() {
+        driver.get(BASE_URL);
     }
 
     public void login(final String userName, final String password) {
         driver.findElement(loginInput).sendKeys(userName);
         driver.findElement(passwordInput).sendKeys(password);
         driver.findElement(loginButton).click();
+    }
+
+    public boolean isErrorDisplayed() {
+        return driver.findElement(error).isDisplayed();
+    }
+
+    public String getErrorText() {
+        return driver.findElement(error).getText();
     }
 }
