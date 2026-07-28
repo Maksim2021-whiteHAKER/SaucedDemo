@@ -1,5 +1,6 @@
 package tests;
 
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertEquals;
@@ -18,57 +19,24 @@ public class LoginTest extends BaseTest {
         driver.quit();
     }
 
-    @Test
-    public void incorrectLogin() {
-        loginPage.open();
-        loginPage.login("Standart_user", "secret_sauce");
-        assertTrue(loginPage.isErrorDisplayed());
-        assertEquals(loginPage.getErrorText(),
-                "Epic sadface: Username and password do not match any user in this service");
-        driver.quit();
+    @DataProvider
+    public Object[][] incorrectData() {
+        return new Object[][]{
+                {"Standart_user", "secret_sauce", "Epic sadface: Username and password do not match any user in this service"},
+                {"standard_user", "Secret_sauce", "Epic sadface: Username and password do not match any user in this service"},
+                {"", "secret_sauce", "Epic sadface: Username is required"},
+                {"locked_out_user", "secret_sauce", "Epic sadface: Sorry, this user has been locked out."},
+                {"standard_user", "", "Epic sadface: Password is required"}
+        };
+
     }
 
-    @Test
-    public void incorrectPassword() {
+    @Test(dataProvider = "incorrectData")
+    public void incorrectLogin(String loginUser, String passwordUser, String errorMsg) {
         loginPage.open();
-        loginPage.login("standard_user", "Secret_sauce");
-
+        loginPage.login(loginUser, passwordUser);
         assertTrue(loginPage.isErrorDisplayed());
-        assertEquals(loginPage.getErrorText(),
-                "Epic sadface: Username and password do not match any user in this service");
-        driver.quit();
-    }
-
-    @Test
-    public void lockedUserLogin() {
-        loginPage.open();
-        loginPage.login("locked_out_user", "secret_sauce");
-
-        assertTrue(loginPage.isErrorDisplayed());
-        assertEquals(loginPage.getErrorText(),
-                "Epic sadface: Sorry, this user has been locked out.");
-        driver.quit();
-    }
-
-    @Test
-    public void emptyUserLogin() {
-        loginPage.open();
-        loginPage.login("", "secret_sauce");
-
-        assertTrue(loginPage.isErrorDisplayed());
-        assertEquals(loginPage.getErrorText(),
-                "Epic sadface: Username is required");
-        driver.quit();
-    }
-
-    @Test
-    public void emptyUserPassword() {
-        loginPage.open();
-        loginPage.login("standard_user", "");
-
-        assertTrue(loginPage.isErrorDisplayed());
-        assertEquals(loginPage.getErrorText(),
-                "Epic sadface: Password is required");
+        assertEquals(loginPage.getErrorText(), errorMsg);
         driver.quit();
     }
 }
