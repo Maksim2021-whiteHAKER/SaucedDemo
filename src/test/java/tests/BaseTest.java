@@ -19,7 +19,8 @@ public class BaseTest {
     public void setup() {
         EdgeOptions options = new EdgeOptions();
         options.addArguments("--inprivate");
-        options.addArguments("start-maximazed");
+        options.addArguments("--start-maximized");
+        options.addArguments("headless");
         driver = new EdgeDriver(options);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
         loginPage = new LoginPage(driver);
