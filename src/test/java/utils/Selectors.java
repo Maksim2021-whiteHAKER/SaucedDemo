@@ -5,7 +5,7 @@ import org.openqa.selenium.By;
 public class Selectors {
 
     public static By dataTest(String value) {
-        return By.cssSelector("[data-test='" + value + "'], [data-testid='" + value + "']");
+         return By.cssSelector("[data-test='%s'], [data-testid='%s']".formatted(value, value));
     }
 
     public static By id(String value) {
@@ -21,6 +21,6 @@ public class Selectors {
     }
 
     public static By text(String value) {
-        return By.xpath("//*[text()='" + value + "']");
+        return By.xpath("//*[text()='%s']".formatted(value));
     }
 }
