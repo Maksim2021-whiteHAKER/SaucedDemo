@@ -2,12 +2,13 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import utils.Selectors;
 
 public class ProductsPage extends BasePage {
     private static final String ADD_TO_CART = "//*[text()='%s']//ancestor::div//*[text()='Add to cart']";
-    private final By pageName = By.xpath("//span[@data-test='title']");
-    private final By counter = By.cssSelector(".shopping_cart_badge");
-    private final By addToCartBtn = By.xpath("//button[text()='Add to cart']");
+    private final By pageName = Selectors.dataTest("title");
+    private final By counter = Selectors.css(".shopping_cart_badge");
+    private final By addToCartBtn = Selectors.text("Add to cart");
 
     public ProductsPage(WebDriver driver) {
         super(driver);
@@ -36,5 +37,9 @@ public class ProductsPage extends BasePage {
 
     public String checkCounterColor() {
         return driver.findElement(counter).getCssValue("background-color");
+    }
+
+    public void switchToCart() {
+        driver.findElement(counter).click();
     }
 }

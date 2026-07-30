@@ -2,12 +2,13 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import utils.Selectors;
 
 public class LoginPage extends BasePage{
-    private final By loginInput = By.cssSelector("#user-name");
-    private final By passwordInput = By.cssSelector("#password");
-    private final By loginButton = By.cssSelector("#login-button");
-    private final By error = By.xpath("//h3");
+    private final By loginInput = Selectors.id("user-name");
+    private final By passwordInput = Selectors.id("password");
+    private final By loginButton = Selectors.id("login-button");
+    private final By error = Selectors.xpath("//h3");
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -15,6 +16,10 @@ public class LoginPage extends BasePage{
 
     public void open() {
         driver.get(BASE_URL);
+    }
+
+    public void loginCorrect() {
+        login("standard_user", "secret_sauce");
     }
 
     public void login(final String userName, final String password) {
