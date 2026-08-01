@@ -4,9 +4,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import utils.PropertyReader;
 
 public class BasePage {
-    public static final String BASE_URL = "https://saucedemo.com/";
+    public static final String BASE_URL = PropertyReader.getProperty("saucedemo.url");
 
     WebDriver driver;
     WebDriverWait wait;

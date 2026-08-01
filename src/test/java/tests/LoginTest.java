@@ -2,41 +2,41 @@ package tests;
 
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import utils.User;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
+import static utils.UserFactory.*;
 
 public class LoginTest extends BaseTest {
 
     @Test
     public void testLogin() {
         loginPage.open();
-        loginPage.login("standard_user", "secret_sauce");
+        loginPage.login(withStandardUser());
 
         assertTrue(productsPage.pageIsOpen());
         assertEquals(productsPage.getNamePage(), "Products",
                 "Название страницы не соответствует ожидаемому результату");
-        driver.quit();
     }
 
     @DataProvider
     public Object[][] incorrectData() {
         return new Object[][]{
-                {"Standart_user", "secret_sauce", "Epic sadface: Username and password do not match any user in this service"},
-                {"standard_user", "Secret_sauce", "Epic sadface: Username and password do not match any user in this service"},
-                {"", "secret_sauce", "Epic sadface: Username is required"},
-                {"locked_out_user", "secret_sauce", "Epic sadface: Sorry, this user has been locked out."},
-                {"standard_user", "", "Epic sadface: Password is required"}
+                {withWrongLoginUser(), "Epic sadface: Username and password do not match any user in this service"},
+                {withWrongPasswordUser(), "Epic sadface: Username and password do not match any user in this service"},
+                {withVoidLoginUser(), "Epic sadface: Username is required"},
+                {withLockedUser(), "Epic sadface: Sorry, this user has been locked out."},
+                {withVoidPasswordUser(), "Epic sadface: Password is required"}
         };
 
     }
 
     @Test(dataProvider = "incorrectData")
-    public void incorrectLogin(String loginUser, String passwordUser, String errorMsg) {
+    public void incorrectLogin(User user, String errorMsg) {
         loginPage.open();
-        loginPage.login(loginUser, passwordUser);
+        loginPage.login(user);
         assertTrue(loginPage.isErrorDisplayed());
         assertEquals(loginPage.getErrorText(), errorMsg);
-        driver.quit();
     }
 }
