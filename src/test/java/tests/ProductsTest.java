@@ -3,6 +3,7 @@ package tests;
 import org.testng.annotations.Test;
 
 import java.util.List;
+import static utils.UserFactory.withStandardUser;
 
 import static org.testng.Assert.assertEquals;
 
@@ -15,7 +16,7 @@ public class ProductsTest extends BaseTest {
     @Test
     public void checkGoodsAdded() {
         loginPage.open();
-        loginPage.login("standard_user", "secret_sauce");
+        loginPage.login(withStandardUser());
         productsPage.pageIsOpen();
         productsPage.addToCart(4);
         for (String goodName : goodsList) {
