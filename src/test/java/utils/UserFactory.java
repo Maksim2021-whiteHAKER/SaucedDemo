@@ -56,18 +56,4 @@ public class UserFactory {
                 PropertyReader.getProperty("saucedemo.wrongPassword")
         );
     }
-
-    public static User withVoidLoginUser() {
-        return new User(
-                "",
-                PropertyReader.getProperty("saucedemo.password")
-        );
-    }
-
-    public static User withVoidPasswordUser() {
-        return new User(
-                PropertyReader.getProperty("saucedemo.standardUser"),
-                ""
-        );
-    }
 }

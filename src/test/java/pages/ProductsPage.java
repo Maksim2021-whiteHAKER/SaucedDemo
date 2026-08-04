@@ -6,20 +6,12 @@ import utils.Selectors;
 
 public class ProductsPage extends BasePage {
     private static final String ADD_TO_CART = "//*[text()='%s']//ancestor::div//*[text()='Add to cart']";
-    private final By pageName = Selectors.dataTest("title");
     private final By counter = Selectors.css(".shopping_cart_badge");
+    private final By cart = Selectors.css(".shopping_cart_link");
     private final By addToCartBtn = Selectors.text("Add to cart");
 
     public ProductsPage(WebDriver driver) {
         super(driver);
-    }
-
-    public boolean pageIsOpen() {
-        return driver.findElement(pageName).isDisplayed();
-    }
-
-    public String getNamePage() {
-        return driver.findElement(pageName).getText();
     }
 
     public void addToCart(String buyElem) {
@@ -39,7 +31,11 @@ public class ProductsPage extends BasePage {
         return driver.findElement(counter).getCssValue("background-color");
     }
 
-    public void switchToCart() {
+    public void counterCartClick() {
         driver.findElement(counter).click();
+    }
+
+    public void enterToCart() {
+        driver.findElement(cart).click();
     }
 }

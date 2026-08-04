@@ -10,6 +10,7 @@ public class LoginPage extends BasePage{
     private final By passwordInput = Selectors.id("password");
     private final By loginButton = Selectors.id("login-button");
     private final By error = Selectors.xpath("//h3");
+    private final By acceptedUserNames = Selectors.xpath("//*[@id='login_credentials']/h4");
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -27,6 +28,10 @@ public class LoginPage extends BasePage{
 
     public boolean isErrorDisplayed() {
         return driver.findElement(error).isDisplayed();
+    }
+
+    public String getNameElementAcceptsNamesOnPage() {
+        return driver.findElement(acceptedUserNames).getText();
     }
 
     public String getErrorText() {

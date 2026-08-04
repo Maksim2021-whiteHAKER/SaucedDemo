@@ -32,7 +32,7 @@ public class PropertyReader {
                 try {
                     inputStream.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    System.err.println("Error: "+e);
                 }
             }
         }
