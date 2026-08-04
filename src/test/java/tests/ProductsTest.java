@@ -3,15 +3,26 @@ package tests;
 import org.testng.annotations.Test;
 
 import java.util.List;
+
+import static org.testng.Assert.*;
 import static utils.UserFactory.withStandardUser;
 
 import static org.testng.Assert.assertEquals;
+import static enums.TitleNaming.*;
 
 public class ProductsTest extends BaseTest {
     List<String> goodsList =
             List.of("Sauce Labs Bolt T-Shirt",
                     "Sauce Labs Backpack",
                     "Sauce Labs Fleece Jacket");
+
+    @Test
+    public void pageProductsLoaded() {
+        loginPage.open();
+        loginPage.login(withStandardUser());
+        assertTrue(productsPage.pageIsOpen());
+        assertEquals(productsPage.getNamePage(), PRODUCTS.getDisplayName());
+    }
 
     @Test
     public void checkGoodsAdded() {

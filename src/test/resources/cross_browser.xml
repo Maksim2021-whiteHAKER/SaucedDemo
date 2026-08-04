@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="2" name="LoginTest" parallel="classes">
+
+    <test name="Edge">
+        <classes>
+            <class name="tests.LoginTest"/>
+            <parameter name="browser" value="edge"/>
+        </classes>
+    </test>
+
+    <test name="Yandex">
+        <classes>
+            <class name="tests.ProductsTest"/>
+            <parameter name="browser" value="yandex"/>
+        </classes>
+    </test>
+
+</suite>

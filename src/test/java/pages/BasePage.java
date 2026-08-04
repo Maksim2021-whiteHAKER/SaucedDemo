@@ -1,13 +1,16 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import utils.PropertyReader;
+import utils.Selectors;
 
 public class BasePage {
     public static final String BASE_URL = PropertyReader.getProperty("saucedemo.url");
+    private final By pageName = Selectors.dataTest("title");
 
     WebDriver driver;
     WebDriverWait wait;
@@ -15,5 +18,13 @@ public class BasePage {
     public BasePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+    }
+
+    public boolean pageIsOpen() {
+        return driver.findElement(pageName).isDisplayed();
+    }
+
+    public String getNamePage() {
+        return driver.findElement(pageName).getText();
     }
 }
