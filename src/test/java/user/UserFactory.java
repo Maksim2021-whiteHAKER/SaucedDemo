@@ -1,4 +1,6 @@
-package utils;
+package user;
+
+import utils.PropertyReader;
 
 public class UserFactory {
     public static User withStandardUser() {

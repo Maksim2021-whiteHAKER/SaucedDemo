@@ -1,9 +1,10 @@
 package pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import utils.Selectors;
-import utils.User;
+import user.User;
 
 public class LoginPage extends BasePage{
     private final By loginInput = Selectors.id("user-name");
@@ -16,25 +17,30 @@ public class LoginPage extends BasePage{
         super(driver);
     }
 
+    @Step("Открытие браузер")
     public void open() {
         driver.get(BASE_URL);
     }
 
+    @Step("Авторизация под пользователем: {user.login} с паролем: *** ")
     public void login(User user) {
         driver.findElement(loginInput).sendKeys(user.getLogin());
         driver.findElement(passwordInput).sendKeys(user.getPassword());
         driver.findElement(loginButton).click();
     }
 
+    @Step("Проверяем отображается ли сообщение об ошибке")
     public boolean isErrorDisplayed() {
         return driver.findElement(error).isDisplayed();
     }
 
-    public String getNameElementAcceptsNamesOnPage() {
-        return driver.findElement(acceptedUserNames).getText();
-    }
-
+    @Step("Получение текста ошибки")
     public String getErrorText() {
         return driver.findElement(error).getText();
+    }
+
+    @Step("Получение текста заголовка со списком разрешенных пользователей")
+    public String getNameElementAcceptsNamesOnPage() {
+        return driver.findElement(acceptedUserNames).getText();
     }
 }

@@ -1,22 +1,29 @@
 package tests;
 
+import io.qameta.allure.*;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
-import pages.BasePage.*;
-import utils.User;
+import user.User;
 
 import static org.testng.Assert.assertEquals;
 import static org.testng.Assert.assertTrue;
-import static utils.UserFactory.*;
+import static user.UserFactory.*;
 import static enums.TitleNaming.*;
 
+@Epic("Интернет-магазин")
+@Feature("Авторизация")
+@Owner("Vladimirov Maksim Vladimirovich tg: @not_found_404_404 EMAIL: maksim25082002x5@gmail.com")
+@Severity(SeverityLevel.BLOCKER)
 public class LoginTest extends BaseTest {
-
+    @Story("Проверяем загрузилась ли страница")
+    @Description("Проверка наличия отображения всех элементов страницы")
     @Test public void pageLoginLoaded() {
         loginPage.open();
         assertEquals(loginPage.getNameElementAcceptsNamesOnPage(), "Accepted usernames are:", "Элемент не найден 'Accepted usernames are:'");
     }
 
+    @Story("Успешная авторизация")
+    @Description("Проверка успешного входа в систему с валидными учетными данными стандартного пользователя и перехода на страницу товаров")
     @Test
     public void testLogin() {
         loginPage.open();
@@ -39,6 +46,9 @@ public class LoginTest extends BaseTest {
 
     }
 
+    @Story("Негативные сценарии авторизации")
+    @Description("Набор данных для проверки негативных сценариев: неверный логин, неверный пароль, заблокированный пользователь, пустые поля")
+    @Severity(SeverityLevel.BLOCKER)
     @Test(dataProvider = "incorrectData")
     public void incorrectLogin(User user, String errorMsg) {
         loginPage.open();
