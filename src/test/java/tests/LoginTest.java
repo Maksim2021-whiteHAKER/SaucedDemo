@@ -12,12 +12,14 @@ import static enums.TitleNaming.*;
 
 @Epic("Интернет-магазин")
 @Feature("Авторизация")
-@Owner("Vladimirov Maksim Vladimirovich tg: @not_found_404_404 EMAIL: maksim25082002x5@gmail.com")
+@Owner("Vladimirov Maksim Vladimirovich | TG: @not_found_404_404 | EMAIL: maksim25082002x5@gmail.com")
 @Severity(SeverityLevel.BLOCKER)
+@TmsLink("SaucedDemo")
 public class LoginTest extends BaseTest {
-    @Story("Проверяем загрузилась ли страница")
+    @Story("Просмотр страницы авторизации")
     @Description("Проверка наличия отображения всех элементов страницы")
-    @Test public void pageLoginLoaded() {
+    @Test
+    public void pageLoginLoaded() {
         loginPage.open();
         assertEquals(loginPage.getNameElementAcceptsNamesOnPage(), "Accepted usernames are:", "Элемент не найден 'Accepted usernames are:'");
     }
@@ -26,12 +28,12 @@ public class LoginTest extends BaseTest {
     @Description("Проверка успешного входа в систему с валидными учетными данными стандартного пользователя и перехода на страницу товаров")
     @Test
     public void testLogin() {
-        loginPage.open();
-        loginPage.login(withStandardUser());
+        loginPage
+                .open()
+                .login(withStandardUser());
 
-        assertTrue(loginPage.pageIsOpen());
-        assertEquals(productsPage.getNamePage(), PRODUCTS.getDisplayName(),
-                "Название страницы не соответствует ожидаемому результату");
+        assertTrue(productsPage.pageIsOpen());
+        assertEquals(productsPage.getNamePage(), PRODUCTS.getDisplayName(), "Название страницы не соответствует ожидаемому результату");
     }
 
     @DataProvider
@@ -43,17 +45,17 @@ public class LoginTest extends BaseTest {
                 {new User("", "secret_sauce"), "Epic sadface: Username is required"},
                 {new User("standard_user", ""), "Epic sadface: Password is required"}
         };
-
     }
 
     @Story("Негативные сценарии авторизации")
-    @Description("Набор данных для проверки негативных сценариев: неверный логин, неверный пароль, заблокированный пользователь, пустые поля")
+    @Description("Проверка отображения корректных сообщений об ошибках при вводе невалидных данных (неверные логин/пароль, заблокированный пользователь, пустые)")
     @Severity(SeverityLevel.BLOCKER)
     @Test(dataProvider = "incorrectData")
-    public void incorrectLogin(User user, String errorMsg) {
-        loginPage.open();
-        loginPage.login(user);
+    public void incorrectLogin(User user, String expectedErrMsg) {
+        loginPage
+                .open()
+                .login(user);
         assertTrue(loginPage.isErrorDisplayed());
-        assertEquals(loginPage.getErrorText(), errorMsg);
+        assertEquals(loginPage.getErrorText(), expectedErrMsg,  "Текст не совпадает с ожидаемым текстом ошибки");
     }
 }

@@ -10,9 +10,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.testng.ITestContext;
 import org.testng.annotations.*;
-import pages.CartPage;
-import pages.LoginPage;
-import pages.ProductsPage;
+import pages.*;
 import utils.TestListener;
 
 import java.time.Duration;
@@ -23,6 +21,9 @@ public class BaseTest {
     LoginPage loginPage;
     ProductsPage productsPage;
     CartPage cartPage;
+    CheckoutPage checkoutPage;
+    CheckoutOverviewPage checkoutOverviewPage;
+    CheckoutCompletePage checkoutCompletePage;
 
     @Parameters({"browser"})
     @BeforeMethod
@@ -32,7 +33,7 @@ public class BaseTest {
             EdgeOptions options = new EdgeOptions();
             options.addArguments("--inprivate");
             options.addArguments("--start-maximized");
-            options.addArguments("--headless");
+//            options.addArguments("--headless");
             driver = new EdgeDriver(options);
         } else if (browser.equalsIgnoreCase("yandex")) {
             System.setProperty("webdriver.chrome.driver", "src\\test\\resources\\drivers\\chromedriver.exe");
@@ -48,6 +49,9 @@ public class BaseTest {
         loginPage = new LoginPage(driver);
         productsPage = new ProductsPage(driver);
         cartPage = new CartPage(driver);
+        checkoutPage = new CheckoutPage(driver);
+        checkoutOverviewPage = new CheckoutOverviewPage(driver);
+        checkoutCompletePage = new CheckoutCompletePage(driver);
     }
 
     @Step("Закрытие браузера")
