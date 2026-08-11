@@ -33,7 +33,7 @@ public class BaseTest {
             EdgeOptions options = new EdgeOptions();
             options.addArguments("--inprivate");
             options.addArguments("--start-maximized");
-//            options.addArguments("--headless");
+            options.addArguments("--headless");
             driver = new EdgeDriver(options);
         } else if (browser.equalsIgnoreCase("yandex")) {
             System.setProperty("webdriver.chrome.driver", "src\\test\\resources\\drivers\\chromedriver.exe");

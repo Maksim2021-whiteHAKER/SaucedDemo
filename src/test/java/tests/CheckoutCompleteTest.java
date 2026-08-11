@@ -28,8 +28,9 @@ public class CheckoutCompleteTest extends BaseTest {
             productsPage.addToCart(goodName);
         }
         productsPage.counterCartClick();
-        checkoutPage.clickCheckoutButton();
-        checkoutPage.fillCheckoutForm("Maksim", "V.", "247184");
+        checkoutPage
+                .clickCheckoutButton()
+                .fillCheckoutForm("Maksim", "V.", "247184");
     }
 
     @Test

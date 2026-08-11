@@ -5,7 +5,6 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-
 public class CheckoutData {
     private final String firstName;
     private final String lastName;
