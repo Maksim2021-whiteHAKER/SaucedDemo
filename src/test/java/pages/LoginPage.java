@@ -10,23 +10,25 @@ public class LoginPage extends BasePage{
     private final By loginInput = Selectors.id("user-name");
     private final By passwordInput = Selectors.id("password");
     private final By loginButton = Selectors.id("login-button");
-    private final By error = Selectors.xpath("//h3");
+    private final By error = Selectors.xpath("//h3[@data-test='error']");
     private final By acceptedUserNames = Selectors.xpath("//*[@id='login_credentials']/h4");
 
     public LoginPage(WebDriver driver) {
         super(driver);
     }
 
-    @Step("Открытие браузер")
-    public void open() {
+    @Step("Открытие браузера")
+    public LoginPage open() {
         driver.get(BASE_URL);
+        return this;
     }
 
     @Step("Авторизация под пользователем: {user.login} с паролем: *** ")
-    public void login(User user) {
+    public LoginPage login(User user) {
         driver.findElement(loginInput).sendKeys(user.getLogin());
         driver.findElement(passwordInput).sendKeys(user.getPassword());
         driver.findElement(loginButton).click();
+        return this;
     }
 
     @Step("Проверяем отображается ли сообщение об ошибке")
