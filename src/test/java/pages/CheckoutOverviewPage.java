@@ -45,23 +45,23 @@ public class CheckoutOverviewPage extends BasePage {
         return (Math.round(calculatedTotal * 100.0) / 100.0);
     }
 
-    @Step("Получение конечной цены")
+    @Step("Получение ожидаемой итоговой цены")
     public String getTotalPrice() {
-        return driver.findElement(totalPrice).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(totalPrice)).getText();
     }
 
     @Step("Получение налога")
     public String getTaxPrice() {
-        return driver.findElement(taxPrice).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(taxPrice)).getText();
     }
 
     @Step("Клик по кнопке 'Finish'")
     public void clickFinishButton() {
-        driver.findElement(finishButton).click();
+        wait.until(ExpectedConditions.elementToBeClickable(finishButton)).click();
     }
 
     @Step("Проверяем отображается ли кнопка 'Finish'")
     public boolean finishButtonDisplayed() {
-        return driver.findElement(finishButton).isDisplayed();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(finishButton)).isDisplayed();
     }
 }

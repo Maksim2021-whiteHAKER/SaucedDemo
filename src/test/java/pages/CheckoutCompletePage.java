@@ -2,6 +2,7 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Selectors;
 
 public class CheckoutCompletePage extends BasePage {
@@ -13,10 +14,10 @@ public class CheckoutCompletePage extends BasePage {
     }
 
     public boolean backHomeButtonDisplayed() {
-        return driver.findElement(backHomeButton).isDisplayed();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(backHomeButton)).isDisplayed();
     }
 
     public String getFinalText() {
-        return driver.findElement(finalText).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(finalText)).getText();
     }
 }

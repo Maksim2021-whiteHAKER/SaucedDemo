@@ -28,22 +28,39 @@ public class BaseTest {
     @Parameters({"browser"})
     @BeforeMethod
     public void setup(@Optional("edge") String browser, ITestContext context) {
-        if (browser.equalsIgnoreCase("edge")) {
+        String browserName = System.getProperty("browser", browser != null ? browser : "edge").toLowerCase();
+
+        boolean isCiEnviroment = System.getenv("CI") != null || "true".equalsIgnoreCase(System.getProperty("CI"));
+
+        String headlessProperty = System.getProperty("headless");
+        boolean isHeadless = headlessProperty != null ? Boolean.parseBoolean(headlessProperty) : isCiEnviroment;
+        if (browserName.equals("edge")) {
             WebDriverManager.edgedriver().setup();
             EdgeOptions options = new EdgeOptions();
             options.addArguments("--inprivate");
-            options.addArguments("--start-maximized");
-            options.addArguments("--headless");
+            if (!isHeadless) options.addArguments("--start-maximized");
+            if (isHeadless) options.addArguments("--headless=new");
             driver = new EdgeDriver(options);
-        } else if (browser.equalsIgnoreCase("yandex")) {
+        } else if (browserName.equals("yandex")) {
             System.setProperty("webdriver.chrome.driver", "src\\test\\resources\\drivers\\chromedriver.exe");
             ChromeOptions options = new ChromeOptions();
             options.setBinary("C:\\Program Files\\Yandex\\YandexBrowser\\Application\\browser.exe");
             options.addArguments("--incognito");
+            if (!isHeadless) options.addArguments("--start-maximized");
+            if (isHeadless) options.addArguments("--headless=new");
+            driver = new ChromeDriver(options);
+        } else {
+            WebDriverManager.chromedriver().setup();
+            ChromeOptions options = new ChromeOptions();
             options.addArguments("--start-maximized");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            if (isHeadless) options.addArguments("--headless=new");
             driver = new ChromeDriver(options);
         }
 
+        System.out.println("isHeadless: " + isHeadless);
         context.setAttribute("driver", driver);
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
         loginPage = new LoginPage(driver);

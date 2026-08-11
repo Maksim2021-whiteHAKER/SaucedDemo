@@ -3,6 +3,7 @@ package pages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Selectors;
 import user.User;
 
@@ -25,24 +26,24 @@ public class LoginPage extends BasePage{
 
     @Step("Авторизация под пользователем: {user.login} с паролем: *** ")
     public LoginPage login(User user) {
-        driver.findElement(loginInput).sendKeys(user.getLogin());
-        driver.findElement(passwordInput).sendKeys(user.getPassword());
-        driver.findElement(loginButton).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginInput)).sendKeys(user.getLogin());
+        wait.until(ExpectedConditions.visibilityOfElementLocated(passwordInput)).sendKeys(user.getPassword());
+        wait.until(ExpectedConditions.visibilityOfElementLocated(loginButton)).click();
         return this;
     }
 
     @Step("Проверяем отображается ли сообщение об ошибке")
     public boolean isErrorDisplayed() {
-        return driver.findElement(error).isDisplayed();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(error)).isDisplayed();
     }
 
     @Step("Получение текста ошибки")
     public String getErrorText() {
-        return driver.findElement(error).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(error)).getText();
     }
 
     @Step("Получение текста заголовка со списком разрешенных пользователей")
     public String getNameElementAcceptsNamesOnPage() {
-        return driver.findElement(acceptedUserNames).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(acceptedUserNames)).getText();
     }
 }
