@@ -21,12 +21,10 @@ public class CartPage extends BasePage {
     @Step("Очищение корзины")
     public CartPage clearCart() {
         try {
-            wait.until(ExpectedConditions.presenceOfElementLocated(productTitle));
-            List<WebElement> removeButtons = driver.findElements(removeProduct);
-            if (!removeButtons.isEmpty()) {
-                removeButtons.get(0).click();
-                wait.until(ExpectedConditions.stalenessOf(removeButtons.get(0)));
-                driver.findElements(removeProduct);
+            while (!driver.findElements(removeProduct).isEmpty()) {
+                List<WebElement> buttons = driver.findElements(removeProduct);
+                buttons.get(0).click();
+                wait.until(ExpectedConditions.stalenessOf(buttons.get(0)));
             }
         } catch (Exception e) {
             System.out.println("ошибка: " + e);

@@ -31,10 +31,10 @@ public class BaseTest {
     public void setup(@Optional("edge") String browser, ITestContext context) {
         String browserName = System.getProperty("browser", browser != null ? browser : "edge").toLowerCase();
 
-        boolean isCiEnviroment = System.getenv("CI") != null || "true".equalsIgnoreCase(System.getProperty("CI"));
+        boolean isCiEnvironment = System.getenv("CI") != null || "true".equalsIgnoreCase(System.getProperty("CI"));
 
         String headlessProperty = System.getProperty("headless");
-        boolean isHeadless = headlessProperty != null ? Boolean.parseBoolean(headlessProperty) : isCiEnviroment;
+        boolean isHeadless = headlessProperty != null ? Boolean.parseBoolean(headlessProperty) : isCiEnvironment;
         if (browserName.equals("edge")) {
             WebDriverManager.edgedriver().setup();
             EdgeOptions options = new EdgeOptions();
