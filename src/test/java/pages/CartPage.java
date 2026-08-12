@@ -12,9 +12,26 @@ import java.util.List;
 
 public class CartPage extends BasePage {
     private final By productTitle = Selectors.css(".inventory_item_name");
+    private final By removeProduct = Selectors.xpath("//button[starts-with(@data-test, 'remove-')]");
 
     public CartPage(WebDriver driver) {
         super(driver);
+    }
+
+    @Step("Очищение корзины")
+    public CartPage clearCart() {
+        try {
+            wait.until(ExpectedConditions.presenceOfElementLocated(productTitle));
+            List<WebElement> removeButtons = driver.findElements(removeProduct);
+            if (!removeButtons.isEmpty()) {
+                removeButtons.get(0).click();
+                wait.until(ExpectedConditions.stalenessOf(removeButtons.get(0)));
+                driver.findElements(removeProduct);
+            }
+        } catch (Exception e) {
+            System.out.println("ошибка: " + e);
+        }
+        return this;
     }
 
     @Step("Получение названий товаров")

@@ -12,6 +12,7 @@ import org.testng.ITestContext;
 import org.testng.annotations.*;
 import pages.*;
 import utils.TestListener;
+import static user.UserFactory.*;
 
 import java.time.Duration;
 
@@ -60,15 +61,28 @@ public class BaseTest {
             driver = new ChromeDriver(options);
         }
 
-        System.out.println("isHeadless: " + isHeadless);
         context.setAttribute("driver", driver);
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(7));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         loginPage = new LoginPage(driver);
         productsPage = new ProductsPage(driver);
         cartPage = new CartPage(driver);
         checkoutPage = new CheckoutPage(driver);
         checkoutOverviewPage = new CheckoutOverviewPage(driver);
         checkoutCompletePage = new CheckoutCompletePage(driver);
+        clearCartIfNotEmpty();
+    }
+
+    @Step("Очистка корзины перед тестом")
+    private void clearCartIfNotEmpty() {
+        try {
+            loginPage
+                    .open()
+                    .login(withStandardUser());
+            productsPage.enterToCart();
+            cartPage.clearCart();
+        } catch (Exception e) {
+            System.out.println("ошибка: " + e);
+        }
     }
 
     @Step("Закрытие браузера")
