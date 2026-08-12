@@ -41,11 +41,13 @@ public class BaseTest {
             options.setBinary("C:\\Program Files\\Yandex\\YandexBrowser\\Application\\browser.exe");
             options.addArguments("--incognito");
             options.addArguments("--start-maximized");
+            options.addArguments("--headless");
             driver = new ChromeDriver(options);
         } else {
             WebDriverManager.chromedriver().setup();
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--incognito");
+            options.addArguments("--headless");
             driver = new ChromeDriver(options);
         }
 
