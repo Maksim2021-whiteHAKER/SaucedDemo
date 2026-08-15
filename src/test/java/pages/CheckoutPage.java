@@ -3,6 +3,7 @@ package pages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import utils.Selectors;
 
 public class CheckoutPage extends BasePage {
@@ -19,26 +20,26 @@ public class CheckoutPage extends BasePage {
 
     @Step("Нажимаем кнопку 'Checkout' для перехода к оформлению")
     public CheckoutPage clickCheckoutButton() {
-        driver.findElement(checkoutBtn).click();
+        wait.until(ExpectedConditions.elementToBeClickable(checkoutBtn)).click();
         return this;
     }
 
     @Step("Заполняем форму оформления заказа: Имя '{fName}', Фамилия '{lName}', Индекс '{pCode}'")
     public CheckoutPage fillCheckoutForm(String fName, String lName, String pCode) {
-        driver.findElement(firstName).sendKeys(fName);
-        driver.findElement(lastName).sendKeys(lName);
-        driver.findElement(postalCode).sendKeys(pCode);
-        driver.findElement(continueBtn).click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(firstName)).sendKeys(fName);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(lastName)).sendKeys(lName);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(postalCode)).sendKeys(pCode);
+        wait.until(ExpectedConditions.elementToBeClickable(continueBtn)).click();
         return this;
     }
 
     @Step("Проверяем отображается ли сообщение об ошибке")
     public boolean isErrorDisplayed() {
-        return driver.findElement(errorMsgOnCheckoutPage).isDisplayed();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(errorMsgOnCheckoutPage)).isDisplayed();
     }
 
     @Step("Получение текста ошибки")
     public String getErrorText() {
-        return driver.findElement(errorMsgOnCheckoutPage).getText();
+        return wait.until(ExpectedConditions.visibilityOfElementLocated(errorMsgOnCheckoutPage)).getText();
     }
 }
